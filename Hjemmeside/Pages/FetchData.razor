@@ -1,0 +1,57 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Cars</PageTitle>
+
+@using Hjemmeside.Data
+@inject WeatherForecastService ForecastService
+
+<h1>All cars</h1>
+
+<p>Uzzy og Selins Autoshop</p>
+
+@if (carList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Maerke</th>
+                <th>Farve</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var Car in carList)
+            {
+                <tr>
+                    <td>@Car.Maerke</td>
+                    <td>@Car.Farve</td>
+
+                </tr>
+            }
+              <tr>
+                <td><button @onclick="AddItem">+</button></td>
+                <td><input @bind="car.Maerke"/></td>
+                <td><input @bind="car.Farve" /></td>
+            </tr>
+
+        </tbody>
+    </table>
+}
+
+@code {
+    List<Data> carList = new SearchClass().SQL();
+    Data car = new();
+    void AddItem()
+    {
+        new SearchClass().CreateCar(car);
+        car = new();
+        carList = new SearchClass().SQL();
+    }
+    
+   
+   
+}
